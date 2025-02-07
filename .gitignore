@@ -1,0 +1,9 @@
+.DS_Store
+/.direnv
+result/**
+*.db*
+*.aux
+*.fls
+*.log
+*.out
+*.synctex.gz
