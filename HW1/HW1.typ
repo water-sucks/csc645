@@ -78,9 +78,9 @@ the name "application layer").
 The length of the packet does not affect the propagation speed, so take
 $"speed" / "distance"$.
 
-$2,500 "km" = 2.5*10^8 m$
+$2,500 "km" = 2.5*10^6 m$
 
-$qty("2.5e6", "m") / qty("2.5e8", "m/s") = qty("0.008", "s")$
+$qty("2.5e6", "m") / qty("2.5e8", "m/s") = qty("0.01", "s")$
 
 ==== 5. #text("Consider a packet of length L which begins at end system A and "+
 "travels over three links to a destination end system. These three links are "+
@@ -136,7 +136,7 @@ Total throughput will be bottlenecked by the slowest link, which $R_1 = 1 "Mbps"
 "by the throughput, roughly how long will it take to transfer the file to "+
 "Host B?")
 
-$(num("1e6") "bits") / (num("1e6") "bps") = qty("32", "s")$
+$(num("32e6") "bits") / (num("1e6") "bps") = qty("32", "s")$
 
 ==== 7. #text("Suppose you would like to urgently deliver 40 terabytes (1 "+
 "terabyte = "+$10^12$+" bytes) data from Boston to Los Angeles. You have "+
