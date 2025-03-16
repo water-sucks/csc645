@@ -1,9 +1,6 @@
 package server
 
 import (
-	"encoding/json"
-	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
@@ -18,9 +15,10 @@ func ServerCommand() *cobra.Command {
 	opts := ServerOpts{}
 
 	cmd := cobra.Command{
-		Use:   "server",
-		Short: "Run TCP/UDP server for reversing sentence",
-		Long:  "Run TCP/UDP server for reversing sentence",
+		Use:          "server",
+		Short:        "Run TCP/UDP server for reversing sentence",
+		Long:         "Run TCP/UDP server for reversing sentence",
+		SilenceUsage: true,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return serverMain(&opts)
 		},
@@ -39,7 +37,11 @@ func ServerCommand() *cobra.Command {
 }
 
 func serverMain(opts *ServerOpts) error {
-	strOutput, _ := json.Marshal(opts)
-	fmt.Println(string(strOutput))
-	return nil
+	if opts.UseTCP {
+		return tcpServer(opts.Addr, opts.Port)
+	} else if opts.UseUDP {
+		return udpServer(opts.Addr, opts.Port)
+	}
+
+	panic("unreachable")
 }

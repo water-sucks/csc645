@@ -1,7 +1,6 @@
 package client
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/spf13/cobra"
@@ -19,9 +18,10 @@ func ClientCommand() *cobra.Command {
 	opts := ClientOpts{}
 
 	cmd := cobra.Command{
-		Use:   "client <MESSAGE>",
-		Short: "Send tcp/udp message to server to reverse message",
-		Long:  "Send tcp/udp message to server to reverse message",
+		Use:          "client <MESSAGE>",
+		Short:        "Send tcp/udp message to server to reverse message",
+		Long:         "Send tcp/udp message to server to reverse message",
+		SilenceUsage: true,
 		Args: func(cmd *cobra.Command, args []string) error {
 			if len(args) != 1 {
 				return fmt.Errorf("requires exactly one argument")
@@ -48,7 +48,11 @@ func ClientCommand() *cobra.Command {
 }
 
 func clientMain(opts *ClientOpts) error {
-	strOutput, _ := json.Marshal(opts)
-	fmt.Println(string(strOutput))
+	if opts.UseTCP {
+		return tcpClient(opts.Message, opts.Addr, opts.Port)
+	} else if opts.UseUDP {
+		return udpClient(opts.Message, opts.Addr, opts.Port)
+	}
+
 	return nil
 }
