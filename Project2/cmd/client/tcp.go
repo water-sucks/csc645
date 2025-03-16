@@ -15,7 +15,7 @@ func tcpClient(message string, addr string, port uint) error {
 
 	sock, err := net.DialTCP("tcp", nil, raddr)
 	if err != nil {
-		return fmt.Errorf("failed to dial TCP: %w", err)
+		return fmt.Errorf("failed to dial TCP address: %w", err)
 	}
 	defer sock.Close()
 

@@ -20,13 +20,13 @@ func tcpServer(addr string, port uint) error {
 		return fmt.Errorf("failed to resolve TCP address: %w", err)
 	}
 
-	listener, err := net.ListenTCP("tcp", raddr)
+	sock, err := net.ListenTCP("tcp", raddr)
 	if err != nil {
 		return fmt.Errorf("failed to listen on TCP address: %w", err)
 	}
-	defer listener.Close()
+	defer sock.Close()
 
-	log.Printf("TCP server listening on %s", listener.Addr().String())
+	log.Printf("TCP server listening on %s", sock.Addr().String())
 
 	buffer := make([]byte, 1024)
 
@@ -38,14 +38,14 @@ func tcpServer(addr string, port uint) error {
 		<-shutdownSignal
 		log.Println("shutting down...")
 
-		listener.Close()
+		sock.Close()
 		// Let existing connections finish for a second before shutting down
 		time.Sleep(1 * time.Second)
 		log.Println("TCP server shut down successfully")
 	}()
 
 	for {
-		conn, err := listener.Accept()
+		conn, err := sock.Accept()
 		if err != nil {
 			if opErr, ok := err.(*net.OpError); ok && opErr.Op == "accept" {
 				return nil
@@ -66,7 +66,7 @@ func handleConnection(conn net.Conn, buffer []byte) {
 
 	n, err := conn.Read(buffer)
 	if err != nil {
-		log.Printf("failed to read from connection: %v\n", err)
+		log.Printf("failed to read from connection: %v", err)
 		return
 	}
 
