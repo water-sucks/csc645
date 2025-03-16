@@ -17,6 +17,9 @@
           packages = with pkgs; [
             typst
             typst-fmt
+
+            go
+            golangci-lint
           ];
         };
       };
